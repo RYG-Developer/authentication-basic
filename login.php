@@ -3,17 +3,21 @@ session_start();
 include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-    $sql = "SELECT * FROM tbl_users WHERE username = '$username' AND password = '$password'";
+    $sql = "SELECT * FROM tbl_users WHERE email = '$email' AND password = '$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        $_SESSION['username'] = $username;
-        header("location: welcome.php");
+        $_SESSION['email'] = $email;
+
+        return header("location: welcome.php");
     } else {
-        echo "Login failed. Please try again.";
+        $_SESSION['alert'] = 'Login failed. Please try again.';
+        $_SESSION['failed'] = true;
+
+        return header("location: index.php");
     }
 }
 ?>

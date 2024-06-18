@@ -1,3 +1,12 @@
+<?php
+   session_start();
+
+   // Jika session "email" ada (sudah login), maka redirect ke welcome.php
+   if (!empty($_SESSION["email"])) {
+      header("location: welcome.php");
+   }
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
    <head>
@@ -24,13 +33,24 @@
                <label for="signup" class="slide signup">Signup</label>
                <div class="slider-tab"></div>
             </div>
+
+            <!-- Jika variable session alert ada, maka munculkan! -->
+            <?php if (!empty($_SESSION['alert'])): ?>
+               <div class="form-alert">
+                  <p class="<?= !empty($_SESSION['failed']) ? 'form-failed' : ''; ?>">
+                     <?= $_SESSION['alert']; ?>
+                  </p>
+               </div>
+            <?php endif; ?>
+
             <div class="form-inner">
-               <form action="#" class="login">
+               <!-- Form Login: action arahkan ke file "login.php" -->
+               <form action="login.php" method="POST" class="login">
                   <div class="field">
-                     <input type="text" placeholder="Email Address" required>
+                     <input type="text" name="email" placeholder="Email Address" required>
                   </div>
                   <div class="field">
-                     <input type="password" placeholder="Password" required>
+                     <input type="password" name="password" placeholder="Password" required>
                   </div>
                   <div class="pass-link">
                      <a href="#">Forgot password?</a>
@@ -43,15 +63,17 @@
                      Not a member? <a href="">Signup now</a>
                   </div>
                </form>
-               <form action="#" class="signup">
+
+               <!-- Form Register: action arahkan ke file "register.php" -->
+               <form action="register.php" method="POST" class="signup">
                   <div class="field">
-                     <input type="text" placeholder="Email Address" required>
+                     <input type="text" name="email" placeholder="Email Address" required>
                   </div>
                   <div class="field">
-                     <input type="password" placeholder="Password" required>
+                     <input type="password" name="password" placeholder="Password" required>
                   </div>
                   <div class="field">
-                     <input type="password" placeholder="Confirm password" required>
+                     <input type="password" name="confirm_password" placeholder="Confirm password" required>
                   </div>
                   <div class="field btn">
                      <div class="btn-layer"></div>
@@ -82,3 +104,10 @@
       </script>
    </body>
 </html>
+
+
+<?php
+   // Clear session "alert" dan "failed" yang telah muncul sebelumnya
+   unset($_SESSION["alert"]);
+   unset($_SESSION["failed"]);
+?>

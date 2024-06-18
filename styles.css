@@ -96,6 +96,14 @@ input[type="radio"]{
   width: 100%;
   overflow: hidden;
 }
+.form-alert {
+  font-size: 14px;
+  text-align: center;
+  color: #41a900;
+}
+.form-alert .form-failed {
+  color: #d12e2e;
+}
 .form-container .form-inner{
   display: flex;
   width: 200%;
